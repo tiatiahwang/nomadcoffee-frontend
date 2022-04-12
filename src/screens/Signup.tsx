@@ -78,9 +78,7 @@ const SignUp = () => {
       <FormBox>
         <HeaderContainer>
           <FontAwesomeIcon icon={faInstagram} size="3x" />
-          <Subtitle>
-            Sign up to see photos and videos from your friends.
-          </Subtitle>
+          <Subtitle>친구들의 사진과 동영상을 보려면 가입하세요.</Subtitle>
         </HeaderContainer>
         <form onSubmit={handleSubmit(onValid)}>
           <Input
@@ -89,8 +87,10 @@ const SignUp = () => {
             })}
             name="email"
             type="text"
-            placeholder="Email"
+            placeholder="이메일"
+            hasError={Boolean(errors?.email?.message)}
           />
+          <FormError message={errors?.email?.message} />
           <Input
             {...register('username', {
               required: 'username is required',
@@ -101,21 +101,25 @@ const SignUp = () => {
             })}
             name="username"
             type="text"
-            placeholder="Username"
+            placeholder="사용자 이름"
+            hasError={Boolean(errors?.username?.message)}
           />
+          <FormError message={errors?.username?.message} />
           <Input
             {...register('password', {
               required: 'password is required',
             })}
             name="password"
             type="password"
-            placeholder="Password"
+            placeholder="비밀번호"
+            hasError={Boolean(errors?.password?.message)}
           />
-          <Button type="submit" value="가입하기" />
+          <FormError message={errors?.password?.message} />
+          <Button type="submit" value="가입" />
           <FormError message={errors?.result?.message} />
         </form>
       </FormBox>
-      <BottomBox cta="이미 계정이 있으신가요?" linkText="로그인하기" link="/" />
+      <BottomBox cta="계정이 있으신가요?" linkText="로그인" link="/" />
     </AuthLayout>
   );
 };

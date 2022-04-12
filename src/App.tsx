@@ -1,5 +1,5 @@
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
-import { ApolloProvider, useReactiveVar } from '@apollo/client';
+import { useReactiveVar } from '@apollo/client';
 import { ThemeProvider } from 'styled-components';
 import Home from './screens/Home';
 import Login from './screens/Login';

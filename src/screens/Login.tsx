@@ -45,7 +45,7 @@ const Login = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
     setError,
     clearErrors,
   } = useForm<IForm>({
@@ -103,7 +103,8 @@ const Login = () => {
             onChange={clearLoginError}
             name="username"
             type="text"
-            placeholder="Username"
+            placeholder="사용자 이름"
+            hasError={Boolean(errors?.username?.message)}
           />
           <FormError message={errors?.username?.message} />
           <Input
@@ -113,9 +114,10 @@ const Login = () => {
             onChange={clearLoginError}
             name="password"
             type="password"
-            placeholder="Password"
+            placeholder="비밀번호"
+            hasError={Boolean(errors?.password?.message)}
           />
-          {/* <FormError message={errors?.password?.message} /> */}
+          <FormError message={errors?.password?.message} />
           <Button type="submit" value={loading ? '로딩중' : '로그인'} />
           <FormError message={errors?.result?.message} />
         </form>
