@@ -60,9 +60,9 @@ const SignUp = () => {
     onCompleted,
   });
 
-  //TODO: any 바꾸기
-  const onValid = ({ email, username, password }: any) => {
+  const formSubmit = (data: IForm) => {
     if (loading) return;
+    const { email, username, password } = data;
     createAccount({
       variables: {
         email,
@@ -80,7 +80,7 @@ const SignUp = () => {
           <FontAwesomeIcon icon={faInstagram} size="3x" />
           <Subtitle>친구들의 사진과 동영상을 보려면 가입하세요.</Subtitle>
         </HeaderContainer>
-        <form onSubmit={handleSubmit(onValid)}>
+        <form onSubmit={handleSubmit((data) => formSubmit(data as IForm))}>
           <Input
             {...register('email', {
               required: 'email is required',
