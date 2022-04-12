@@ -1,8 +1,5 @@
 import styled from 'styled-components';
-import {
-  faFacebookSquare,
-  faInstagram,
-} from '@fortawesome/free-brands-svg-icons';
+import { faGithub, faInstagram } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import AuthLayout from '../components/auth/AuthLayout';
 import Button from '../components/auth/Button';
@@ -17,8 +14,8 @@ import FormError from '../components/auth/FormError';
 import { logUserIn } from '../apollo/vars';
 import { useLocation } from 'react-router-dom';
 
-const FacebookLogin = styled.div`
-  color: #385285;
+const GithubLogin = styled.div`
+  color: #0e1117;
   span {
     margin-left: 10px;
     font-weight: 600;
@@ -123,10 +120,10 @@ const Login = () => {
           <FormError message={errors?.result?.message} />
         </form>
         <Separator />
-        <FacebookLogin>
-          <FontAwesomeIcon icon={faFacebookSquare} />
-          <span>Log in with Facebook</span>
-        </FacebookLogin>
+        <GithubLogin>
+          <FontAwesomeIcon icon={faGithub} />
+          <span>깃헙 로그인</span>
+        </GithubLogin>
       </FormBox>
       <BottomBox cta="계정이 없으신가요?" linkText="가입하기" link="/sign-up" />
     </AuthLayout>
