@@ -1,17 +1,135 @@
 import styled from 'styled-components';
-import { isLoggedInVar } from '../apollo';
+import {
+  faFacebookSquare,
+  faInstagram,
+} from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import AuthLayout from '../components/auth/AuthLayout';
+import Button from '../components/auth/Button';
+import FormBox from '../components/auth/FormBox';
+import Input from '../components/auth/Input';
+import Separator from '../components/auth/Seperator';
+import BottomBox from '../components/auth/BottomBox';
+import PageTitle from '../components/PageTitle';
+import { useForm } from 'react-hook-form';
+import { LoginMutation, useLoginMutation } from '../graphql/generated';
+import FormError from '../components/auth/FormError';
+import { logUserIn } from '../apollo/vars';
+import { useLocation } from 'react-router-dom';
 
-const Container = styled.div``;
-
-const Title = styled.h1`
-  color: ${({ theme }) => theme.fontColor};
+const FacebookLogin = styled.div`
+  color: #385285;
+  span {
+    margin-left: 10px;
+    font-weight: 600;
+  }
 `;
 
+const Notification = styled.div`
+  color: #2ecc71;
+`;
+
+interface IForm {
+  username: string;
+  password: string;
+  result?: boolean;
+}
+
+interface ILocation {
+  state: {
+    username: string;
+    password: string;
+    message: string;
+  };
+}
+
 const Login = () => {
+  const { state } = useLocation() as ILocation;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+    setError,
+    clearErrors,
+  } = useForm<IForm>({
+    mode: 'onChange',
+    defaultValues: {
+      username: state?.username || '',
+      password: state?.password || '',
+    },
+  });
+  const onCompleted = (data: LoginMutation) => {
+    const {
+      login: { ok, token, error },
+    } = data;
+    if (!ok) {
+      return setError('result', { message: error! });
+    }
+    if (token) {
+      logUserIn(token);
+    }
+  };
+
+  const [login, { loading }] = useLoginMutation({ onCompleted });
+
+  const onSubmitValid = ({ username, password }: IForm) => {
+    if (loading) return;
+    login({
+      variables: {
+        username,
+        password,
+      },
+    });
+  };
+
+  const clearLoginError = () => {
+    clearErrors('result');
+  };
+
   return (
-    <Container>
-      <Title onClick={() => isLoggedInVar(true)}>Login</Title>
-    </Container>
+    <AuthLayout>
+      <PageTitle title="로그인" />
+      <FormBox>
+        <div>
+          <FontAwesomeIcon icon={faInstagram} size="3x" />
+        </div>
+        <Notification>{state?.message}</Notification>
+        <form onSubmit={handleSubmit(onSubmitValid)}>
+          <Input
+            {...register('username', {
+              required: 'username is required',
+              minLength: {
+                value: 3,
+                message: 'Your username is too short',
+              },
+            })}
+            onChange={clearLoginError}
+            name="username"
+            type="text"
+            placeholder="Username"
+          />
+          <FormError message={errors?.username?.message} />
+          <Input
+            {...register('password', {
+              required: 'password is required',
+            })}
+            onChange={clearLoginError}
+            name="password"
+            type="password"
+            placeholder="Password"
+          />
+          {/* <FormError message={errors?.password?.message} /> */}
+          <Button type="submit" value={loading ? '로딩중' : '로그인'} />
+          <FormError message={errors?.result?.message} />
+        </form>
+        <Separator />
+        <FacebookLogin>
+          <FontAwesomeIcon icon={faFacebookSquare} />
+          <span>Log in with Facebook</span>
+        </FacebookLogin>
+      </FormBox>
+      <BottomBox cta="계정이 없으신가요?" linkText="가입하기" link="/sign-up" />
+    </AuthLayout>
   );
 };
 
