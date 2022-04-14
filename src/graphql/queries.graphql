@@ -1,0 +1,31 @@
+query me {
+  me {
+    username
+    avatarURL
+  }
+}
+
+query seeCoffeeShops($page: Int) {
+  seeCoffeeShops(page: $page) {
+    id
+    name
+    latitude
+    longitude
+    createdAt
+    isMine
+    isLiked
+    likes
+    user {
+      username
+      avatarURL
+    }
+    photos {
+      id
+      url
+    }
+    categories {
+      id
+      name
+    }
+  }
+}

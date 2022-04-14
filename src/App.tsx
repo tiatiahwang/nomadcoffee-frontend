@@ -9,6 +9,8 @@ import { darkTheme, lightTheme } from './styles/theme';
 import GlobalStyles from './styles/GlobalStyles';
 import SignUp from './screens/Signup';
 import { HelmetProvider } from 'react-helmet-async';
+import Layout from './components/Layout';
+import ShopForm from './screens/ShopForm';
 
 function App() {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
@@ -19,7 +21,28 @@ function App() {
         <GlobalStyles />
         <Router>
           <Routes>
-            <Route path="/" element={isLoggedIn ? <Home /> : <Login />} />
+            <Route
+              path="/"
+              element={
+                isLoggedIn ? (
+                  <Layout>
+                    <Home />
+                  </Layout>
+                ) : (
+                  <Login />
+                )
+              }
+            />
+            {isLoggedIn && (
+              <Route
+                path="/add"
+                element={
+                  <Layout>
+                    <ShopForm />
+                  </Layout>
+                }
+              />
+            )}
             {!isLoggedIn ? (
               <Route path="/sign-up" element={<SignUp />} />
             ) : null}

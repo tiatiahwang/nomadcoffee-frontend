@@ -8,7 +8,7 @@ const Button = styled.input<IButton>`
   border: none;
   border-radius: 3px;
   margin-top: 12px;
-  background-color: #0095f6;
+  background-color: #decdb4;
   color: white;
   text-align: center;
   padding: 8px 0px;

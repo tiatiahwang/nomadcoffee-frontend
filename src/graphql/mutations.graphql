@@ -16,3 +16,50 @@ mutation createAccount(
     error
   }
 }
+
+mutation createCoffeeShop(
+  $name: String!
+  $latitude: String!
+  $longitude: String!
+  $photos: [Upload]!
+  $categories: [String]!
+) {
+  createCoffeeShop(
+    name: $name
+    latitude: $latitude
+    longitude: $longitude
+    photos: $photos
+    categories: $categories
+  ) {
+    ok
+    error
+  }
+}
+
+mutation editCoffeeShop(
+  $id: Int!
+  $name: String
+  $latitude: String
+  $longitude: String
+  $photos: [Upload]
+  $categories: [String]
+) {
+  editCoffeeShop(
+    id: $id
+    name: $name
+    latitude: $latitude
+    longitude: $longitude
+    photos: $photos
+    categories: $categories
+  ) {
+    ok
+    error
+  }
+}
+
+mutation toggleLike($id: Int!) {
+  toggleLike(id: $id) {
+    ok
+    error
+  }
+}

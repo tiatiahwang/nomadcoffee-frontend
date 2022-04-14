@@ -1,10 +1,15 @@
-import { logUserOut } from '../apollo/vars';
+import Shop from '../components/feed/Shop';
+import PageTitle from '../components/PageTitle';
+import { useSeeCoffeeShopsQuery } from '../graphql/generated';
 
 const Home = () => {
+  const { data = {} } = useSeeCoffeeShopsQuery();
   return (
     <>
-      <h1>TEST</h1>
-      <button onClick={() => logUserOut()}>로그아웃</button>
+      <PageTitle title="홈" />
+      {data?.seeCoffeeShops?.map((shop) => (
+        <Shop key={shop?.id} shop={shop} />
+      ))}
     </>
   );
 };

@@ -1,6 +1,18 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
+import { createUploadLink } from 'apollo-upload-client';
+
+const TOKEN = 'token';
+
+const authLink = setContext((_, { headers }) => ({
+  headers: { ...headers, token: localStorage.getItem(TOKEN) },
+}));
+
+const uploadLink = createUploadLink({
+  uri: 'http://localhost:4000/graphql',
+});
 
 export const client = new ApolloClient({
-  uri: 'http://localhost:4000/graphql',
+  link: authLink.concat(uploadLink),
   cache: new InMemoryCache(),
 });
