@@ -11,11 +11,12 @@ import PageTitle from '../components/PageTitle';
 import { useForm } from 'react-hook-form';
 import { LoginMutation, useLoginMutation } from '../graphql/generated';
 import FormError from '../components/auth/FormError';
-import { logUserIn } from '../apollo/vars';
+import { isDarkModeVar, logUserIn } from '../apollo/vars';
 import { useLocation } from 'react-router-dom';
+import { useReactiveVar } from '@apollo/client';
 
-const GithubLogin = styled.div`
-  color: #0e1117;
+const GithubLogin = styled.div<{ dark: boolean }>`
+  color: ${(props) => (props.dark ? props.theme.fontColor : '#0e1117')};
   span {
     margin-left: 10px;
     font-weight: 600;
@@ -41,6 +42,7 @@ interface ILocation {
 }
 
 const Login = () => {
+  const dark = useReactiveVar(isDarkModeVar);
   const { state } = useLocation() as ILocation;
   const {
     register,
@@ -122,7 +124,7 @@ const Login = () => {
           <FormError message={errors?.result?.message} />
         </form>
         <Separator />
-        <GithubLogin>
+        <GithubLogin dark={dark}>
           <FontAwesomeIcon icon={faGithub} />
           <span>깃헙 로그인</span>
         </GithubLogin>

@@ -8,7 +8,7 @@ const SBottomBox = styled(BaseBox)`
   a {
     font-weight: 600;
     margin-left: 5px;
-    color: #0095f6;
+    color: #decdb4;
   }
 `;
 
