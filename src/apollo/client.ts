@@ -9,7 +9,10 @@ const authLink = setContext((_, { headers }) => ({
 }));
 
 const uploadLink = createUploadLink({
-  uri: 'http://localhost:4000/graphql',
+  uri:
+    process.env.NODE_ENV === 'production'
+      ? 'https://nomadcoffee-backend-deploy.herokuapp.com/graphql'
+      : 'http://localhost:4000/graphql',
 });
 
 export const client = new ApolloClient({
